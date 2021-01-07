@@ -1,0 +1,40 @@
+<%- include("template/header",{titulo:'Mental Analytica',estilo:'./css/estiloIndex.css'})%>
+<%- include("template/navbar",{link:'/perfil',texto})%>
+<div class="container ml-5 w-25" id="texto">
+    
+        
+    <h1 class="text-center mt-5 ">Pendientes</h1>
+    <table class="table mt-5">
+        <thead> 
+            <%for(var i = 0;i<pacientes.length;i++){%>
+                <tr>
+                <th scope="col"><%=pacientes[i].nombre + ' ' + pacientes[i].appat%><br></th>
+                <th>
+                    <a href="/asignarCuestionario/<%=pacientes[i].Id_usuario%>">
+                        <button class="btn btn-danger">Asignar</button>
+                    </a>
+                </th>
+                
+                </tr>
+            <%}%>
+        </thead>
+        </table>
+
+    <h1 class="text-center mt-5 ">Completados</h1>
+    <table class="table mt-5">
+        <thead> 
+            <%for(var i = 0;i<pacientes.length;i++){%>
+                <tr>
+                <th scope="col"><%=pacientes[i].nombre + ' ' + pacientes[i].appat%><br></th>
+                <th>
+                    <a href="/asignarCuestionario/<%=pacientes[i].Id_usuario%>">
+                        <button class="btn btn-success">Respuestas</button>
+                    </a>
+                </th>
+                
+                </tr>
+            <%}%>
+        </thead>
+        </table>
+</div>
+<%- include("template/footer")%>

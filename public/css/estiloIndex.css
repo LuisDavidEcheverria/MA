@@ -1,0 +1,38 @@
+html{
+    height: 80%;
+}
+body
+{
+
+        /* The image used */
+        background-image: url("https://centrodeayudaesp.es/wp-content/uploads/2018/11/ansiedad9.jpg");
+      
+        /* Full height */
+        height: 100%;
+        width: 100%;
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+}
+#logo
+{
+    filter:invert();
+}
+
+#texto
+{
+    margin-top:9%;
+}
+.Logo
+{
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+}
+
+.Logo:hover
+{
+    border-radius: 100%;
+}

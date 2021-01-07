@@ -1,0 +1,49 @@
+<%- include("template/header",{titulo:'Mental Analytica',estilo:'//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css'})%>
+<%- include("template/navbar",{link,texto:'Regresar'})%>
+            <div class="container shadow-lg mt-5">    
+                  <div class="row">
+
+                      <div class="panel panel-default">
+                      <div class="panel-heading bg-info text-light"> <h4 >Mi Psicólogo</h4></div>
+                       <div class="panel-body">
+                      <div class="col-md-4 col-xs-12 col-sm-6 col-lg-4">
+                       <img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive shadow"> 
+                 
+                      </div>
+                      <div class="col-md-8 col-xs-12 col-sm-6 col-lg-8" >
+                          <div class="container shadow" >
+                            
+                            <h2>Psicologo</h2>
+                            <p><b>Psicologo</b></p>
+                            <ul class="container details" >
+                            
+                                <li><p><span class="glyphicon glyphicon-user one" style="width:50px;"></span>Info</p></li>
+                                <li><p><span class="glyphicon glyphicon-envelope one" style="width:50px;"></span>Email</p></li>
+                            </ul> 
+                          </div>
+                           <hr>
+                           
+                           <form class="form" action="/asignarPsicologo" method="POST">
+                            <div class="row  mb-3">
+
+                            <div class="col"><input type="text" class="form-control" id="inputPassword2" placeholder="Código" name="codigo"></div>
+                            
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    
+                                    <button type="submit" class="btn btn-success mb-2">Registrar</button>
+                                </div>
+                                <div class="col"><button type="submit" class="btn btn-danger mb-2">Eliminar</button></div>
+                            </div>  
+                          </form>
+                            
+                         
+                          <a href='/inicioPaciente'>Regresar</a>
+                          <hr>
+                          
+                      </div>
+                </div>
+            </div>
+            </div>
+<%- include("template/footer")%>
