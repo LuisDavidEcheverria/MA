@@ -1,19 +1,34 @@
-<%- include("template/header",{titulo:'Mental Analytica',estilo:'./css/estiloIndex.css'})%>
-<%- include("template/navbar",{link:'/registrar',texto:'Registrar'})%>
-<table>
-    <thead>
-      <tr>
-        <th colspan="5">Pregunta</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-      </tr>
-    </tbody>
-    </table>
+<%- include("template/header",{titulo:'Mental Analytica',estilo:'./css/estiloCuestionario.css'})%>
+<%- include("template/navbar",{link:'/inicioPaciente',texto:'Regresar'})%>
+
+<div class="container mt-5 shadow text-justify bg-light">
+  
+<form method="POST" action="/enviarCuestionario" >
+<%for(var i = 0;i<preguntas.length;i++){%>
+  <div class="container py-4 "></div>
+  <p class="mt-1"><strong><%=i+1%>-</strong><%=preguntas[i].pregunta%></p>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="inlineRadioOptions<%=i%>" id= '<%=i%>'value="1">
+    <label class="form-check-label" for="<%=i%>">1</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="inlineRadioOptions<%=i%>"id= '<%=i%>'value="2">
+    <label class="form-check-label" for="<%=i%>">2</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="inlineRadioOptions<%=i%>"id= '<%=i%>'value="3">
+    <label class="form-check-label" for="<%=i%>">3</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="inlineRadioOptions<%=i%>"id= '<%=i%>'value="4">
+    <label class="form-check-label" for="<%=i%>">4</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio"name="inlineRadioOptions<%=i%>" id= '<%=i%>'value="5">
+    <label class="form-check-label" for="<%=i%>">5</label>
+  </div>
+<%}%>
+<input class='btn bg-info text-light ' type="submit" value="Enviar">
+</form>
+<div class="container py-4"></div>
 <%- include("template/footer")%>

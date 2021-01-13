@@ -87,7 +87,7 @@
                                 <label class="label-checkbox100" for="ckb1">
                                     <span class="txt1">
                                         Acepto los
-                                        <a href="#" class="txt2 hov1">
+                                        <a href="#" class="txt2 hov1" onclick="mostrarPoliticas()">
                                             términos y condiciones
                                         </a>
                                     </span>
@@ -114,7 +114,34 @@
                 </div>
             </div>
         </div>
-        
+        <script>
+            function mostrarPoliticas() {
+              let mensaje = `A través de esta herramienta Morning Star S.A. pone a su disposición las políticas generales de uso del software Mental Analytica.
+Para evitar conflictos generales de uso inapropiado y en concordancia con el aviso de privacidad se especifica lo siguiente:
+•	La aplicación: “Mental Analytica” tiene como propósito general prevenir posibles ataques o caídas emocionales, que pongan en peligro la integridad del usuario. 
+•	Morning Star S.A., no asegura la efectividad al 100% del algoritmo implementado, por lo tanto, Morning Star S.A. no ofrece su software como tratamiento y mucho menos como una solución completa o parcial al mal que se piense disminuir.
+•	“Mental Analytica” tiene un algoritmo de detección de posibles “fechas críticas”, por lo tanto, esta debe de ser alimentada con fechas específicas donde el usuario haya experimentado problemas emocionales críticos, llámese:
+•	Ansiedad generalizada
+•	Irritabilidad extrema
+•	Tensión
+•	Soledad
+•	Insatisfacción personal.
+•	La exactitud de “Mental Analytica”, tendrá una eficiencia gradual, con esto, se pretende indicar que: Si la aplicación no cuenta con datos suficientes, su eficiencia será mínima y muy inexacta. 
+•	El uso de las imágenes, test, preguntas generales de la aplicación, diseño, colores, ambientación, ambiente general, son propiedad de Morning Star S.A. y su replicación no está permitida
+•	El usuario podrá disponer del software proporcionado de manera personal únicamente, alimentar al software con datos de terceros generaría problemas de exactitud potencialmente peligrosos.
+•	Como usuario, se puede disponer de la aplicación para uso íntimo, Morning Star S.A. se deslinda de la responsabilidad de filtrado de información por usuarios que no dispongan de seguridad en su unidad, llámese Equipo de cómputo.
+•	Los usuarios de “Mental Analytica”, deberán de “ALIMENTAR” a la aplicación cada que se experimente un punto crítico en el ánimo del usuario, si estos no son reportados y analizados la eficiencia del software será muy baja o nula.
+•	Morning Star S.A. no puede garantizar que no se generen interrupciones o errores en el acceso al software o a su contenido,ni que éste se encuentre actualizado.
+•	Morning Star S.A. reconoce la importancia de la confianza de nuestros usuarios y clientes. Por eso es prioridad paranosotros mantener la confidencialidad de la información personal y comercial de nuestros clientes y usuarios.`
+
+              if (confirm(mensaje)) {
+                txt = "You pressed OK!";
+              } else {
+                txt = "You pressed Cancel!";
+              }
+              document.getElementById("demo").innerHTML = txt;
+            }
+            </script>
     <!--===============================================================================================-->
         <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
     <!--===============================================================================================-->
