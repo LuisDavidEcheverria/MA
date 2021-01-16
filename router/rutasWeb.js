@@ -44,7 +44,7 @@ router.post('/registrar',(req,res) =>
     //Encriptar password
     
     
-    if(password=== confirmacion && terminos=== 'on' && rol == 1 || rol == 2)
+    if(password=== confirmacion && terminos=== 'on' && (rol == 1 || rol == 2) && password.length > 8)
     {
         const encriptado= bcrypt.hashSync(password, BCRYPT_SALT_ROUNDS);
         console.log('Encriptado',encriptado);
@@ -69,9 +69,13 @@ router.post('/registrar',(req,res) =>
             }
             else
             {
-                throw err;
+                res.redirect('registrar');
             }
         })
+    }
+    else
+    {
+        res.redirect('registrar');
     }
     console.log(req.body);   
 })
@@ -177,7 +181,7 @@ router.get('/perfil',autentificarSesion,(req,res) =>
             const apppat = result[0].appat;
             const nombre = req.session.username + ' ' + apppat;
             const email = req.session.email;
-            res.render("perfil",{link:link,Nombre:nombre,Rol:rol,Email:email,Info:info})
+            res.render("perfil",{link:link,Nombre:nombre,Rol:rol,Email:email,codigo:req.session.userId})
         }
     })
     
