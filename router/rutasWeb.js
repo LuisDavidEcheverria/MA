@@ -43,7 +43,6 @@ router.post('/registrar',(req,res) =>
     
     //Encriptar password
     
-    
     if(password=== confirmacion && terminos=== 'on' && (rol == 1 || rol == 2) && password.length > 8)
     {
         const encriptado= bcrypt.hashSync(password, BCRYPT_SALT_ROUNDS);
@@ -55,15 +54,15 @@ router.post('/registrar',(req,res) =>
                 if(rol == 1)
                 {
                     connection.query('Insert into MPsicologo (Id_datos) values ('+id+')',function(error,resultado){
-                        if (error) throw error;
-                        res.render('exitoRegistro')
+                        if (error) {res.render('error')}
+                        res.render('exito',{titulo:'Felicidades',mensaje:'Te has registrado como psicologo en Mental Analytica',link:'/ingresar'});
                     })
                 }
                 else
                 {
                     connection.query('Insert into MPaciente (Id_datos) values ('+id+')',function(error,resultado){
-                        if (error) throw error;
-                        res.render('exitoRegistro')
+                        if (error) {res.render('error')}
+                        res.render('exito',{titulo:'Felicidades',mensaje:'Te has registrado como paciente en Mental Analytica',link:'/ingresar'});
                     })
                 } 
             }
@@ -93,6 +92,7 @@ router.post('/ingresar',(req,res) =>
     console.log(password);
     connection.query('Select contraseña from MDatos where correo =?',[email],function(err,result)
     { 
+        if(result.length>0){
         if(bcrypt.compareSync(password,result[0].contraseña))
         {
             console.log('Acceso Permitido');
@@ -138,12 +138,13 @@ router.post('/ingresar',(req,res) =>
                     })
                     }
                 })
-                
-
-            
             }
-        
         })
+        }
+        else
+        {
+            res.redirect('/ingresar');
+        }
         }
         else
         {
@@ -164,7 +165,11 @@ router.get('/perfil',autentificarSesion,(req,res) =>
     let info = 'Información';
    
     connection.query('Select appat from MDatos where correo =?',[req.session.email],function(err,result){
-        if(!err && result.length >0)
+        if(err)
+        {
+            res.render('error');
+        }
+        if(result.length >0)
         {
             if(rol===1)
             {
@@ -194,8 +199,12 @@ router.get('/inicioPsicologo',autentificarPsicologo,(req,res) =>
 
 router.get('/pacientes',autentificarPsicologo,(req,res) =>
 {
-    connection.query('SELECT MD.nombre,MD.appat,MP.Id_usuario FROM MDatos AS MD INNER JOIN MPaciente AS MP ON MD.Id_datos = MP.ID_datos WHERE Id_Psicologo = ?;',[req.session.userId],function(err,result)
+    connection.query('SELECT MD.nombre,MD.appat,MD.correo,MP.Id_usuario FROM MDatos AS MD INNER JOIN MPaciente AS MP ON MD.Id_datos = MP.ID_datos WHERE Id_Psicologo = ?;',[req.session.userId],function(err,result)
     {
+        if(err)
+        {
+            res.render('error');
+        }
         res.render('pacientes',{pacientes:result,texto:req.session.username});
         console.log('ID PSICOLOGO',req.session.userId);
         console.log(result);
@@ -207,6 +216,10 @@ router.get('/pendientes',autentificarPsicologo,(req,res) =>
 {
     connection.query('SELECT MD.nombre,MD.appat,MP.Id_usuario FROM MDatos AS MD INNER JOIN MPaciente AS MP ON MD.Id_datos = MP.ID_datos WHERE Id_Psicologo = ?;',[req.session.userId],function(err,result)
     {
+        if(err)
+        {
+            res.render('error');
+        }
         res.render('pendientes',{pacientes:result,texto:req.session.username});
         console.log('ID',req.session.userId);
         console.log(result);
@@ -217,11 +230,17 @@ router.get('/pendientes',autentificarPsicologo,(req,res) =>
 router.get('/borrarPaciente/:id',autentificarPsicologo,(req,res)=>
 {
     console.log('ID A BORRAR:',req.params.id);
-    connection.query('update Musuario set Id_psicologo = null where Id_usuario=?',[req.params.id],function(err,result)
+    connection.query('update MPaciente set Id_psicologo = null where Id_usuario=?',[req.params.id],function(err,result)
     {
-        res.redirect('/pacientes');
-    });
+        if(err)
+        {
+            res.render('error');
+        }
+       
+    })
+    res.redirect('/pacientes');
 })
+
 router.get('/salir',(req,res) =>
 {
     req.session.destroy();
@@ -230,20 +249,78 @@ router.get('/salir',(req,res) =>
 
 router.get('/psicologo',autentificarPaciente,(req,res) =>
 {
-    res.render('psicologo',{link:'/inicioPaciente'});
+    let idPsicologo;
+    let idDatos;
+    let nombrePsicologo = 'No has registrado un psicólogo';
+    let codigoPsicologo='-'
+    let emailPsicologo = '-';
+    connection.query('select Id_psicologo from MPaciente where Id_usuario = ?',[req.session.userId],function(err,result)
+    {
+        if(err){res.render('error');}
+        idPsicologo = result[0].Id_psicologo;
+        connection.query('select Id_datos from MPsicologo where Id_psicologo = ?',[idPsicologo],function(err,result){
+            if(err){res.render('error');}
+            if(result.length > 0)
+            {
+                console.log('Sirve');
+            }
+            idDatos = result[0];
+            connection.query('select correo,nombre,appat from MDatos where Id_datos =?',[idDatos],function(err,result)
+            {
+                if(err){res.render('error');}
+                if(result.length > 0)
+                {
+                    nombrePsicologo = result[0].nombre + ' ' + result[0].appat;
+                    codigoPsicologo = idPsicologo;
+                    emailPsicologo = result[0].correo;
+                }
+                res.render('psicologo',{link:'/inicioPaciente',psicologo:nombrePsicologo,correoPsicologo:emailPsicologo,codigoPsicologo:codigoPsicologo});
+            })
+
+        })
+        
+    })
+    
+    
+    
+    
+    
 })
 
 router.post('/asignarPsicologo',autentificarPaciente,(req,res)=>
 {
     const {codigo} = req.body;
     const id = req.session.userId;
-    connection.query('SELECT MD.nombre,MD.appat FROM MDatos AS MD INNER JOIN MPsicologo AS MP ON MD.Id_datos = MP.ID_datos WHERE Id_Psicologo = ?',[codigo],function(error,resultado){
-        connection.query('update MPaciente set Id_Psicologo = ? where Id_usuario = ?',[codigo,id],function(err,result)
+    connection.query('select Id_datos from MPsicologo where Id_psicologo =?',[codigo],function(err,result){
+        if(err)
         {
-            if(err) throw err;
-            res.render('exitoPsicologo');
-        })
+            res.render('error');
+            throw err;
+        }
+        if(result.length > 0)
+        {
+            connection.query('SELECT MD.nombre,MD.appat FROM MDatos AS MD INNER JOIN MPsicologo AS MP ON MD.Id_datos = MP.ID_datos WHERE Id_Psicologo = ?',[codigo],function(error,resultado){
+                connection.query('update MPaciente set Id_Psicologo = ? where Id_usuario = ?',[codigo,id],function(err,result)
+                {
+                    if(err)
+                    {
+                        res.render('error');
+                        throw err;
+                    }
+                    else
+                    {
+                        res.render('exito',{titulo:'Felicidades',mensaje:'Has sido asignado a un nuevo psicologo',link:'/inicioPaciente'});
+                    }
+                    
+                })
+            })
+        }
+        else
+        {
+            res.redirect('/psicologo');
+        }
     })
+  
 
 })
 
@@ -257,7 +334,7 @@ router.get('/asignarCuestionario/:id',autentificarPsicologo,(req,res)=>
     connection.query('insert into DEncuesta (Id_usuario,Id_psicologo,fecha,contestado) values (?,?,?,0)',[idPaciente,idPsicologo,fecha],function(err,result)
     {
         if(err) throw err;
-        res.render('exitoAsignacion');
+        res.render('exito',{titulo:'Listo',mensaje:'Se ha asignado el cuestionario correctamente',link:'/inicioPsicologo'});
     })
 })
 
@@ -293,18 +370,44 @@ router.post('/enviarCuestionario',autentificarPaciente,(req,res)=>
     connection.query('Select Id_pregunta from MPregunta',function(err,result)
     {
         let nPreguntas = result.length;
-        for(var i=1;i<nPreguntas;i++)
+        let resultado =0;
+        for(var i=0;i<nPreguntas;i++)
         {
             let nombre = 'inlineRadioOptions' + i;
             console.log(req.body[nombre]);
             let respuesta = req.body[nombre];
-            connection.query('insert into MRespuesta (Id_encuesta,Id_pregunta,respuesta) values(?,?,?)',[idEncuesta,i,respuesta],function(e,r){
-                if(e) throw e;
+            connection.query('insert into MRespuesta (Id_encuesta,Id_pregunta,respuesta) values(?,?,?)',[idEncuesta,i+1,respuesta],function(e,r){
+                if(e) {res.render('error')};
                 
             })
+            resultado += parseInt(respuesta,10);
+        }
+        console.log(resultado);
+        let valoracion;
+        if(resultado >= 40)
+        {
+            valoracion = resultado/40;
+            console.log('Dividido entre 40');
+            console.log(valoracion);
+        }
+        else if(resultado >=30)
+        {
+            valoracion = resultado/30;
+            console.log('Dividido entre 30');
+            console.log(valoracion);
+        }
+        else
+        {
+            valoracion = resultado/10;
+            console.log('Dividido entre 10');
+            console.log(valoracion);
+        }
+        connection.query('update DEncuesta set resultado=?,valoracion=? where Id_encuesta =?',[resultado,valoracion,idEncuesta]),function(e,r)
+        {
+            if(e) throw e;
         }
         connection.query('update DEncuesta set contestado = 1 where Id_encuesta =?',[idEncuesta],function(er,rs){})
-        res.render('exitoCuestionario');
+        res.render('exito',{titulo:'Listo',mensaje:'Tus respuestas se han registrado exitosamente',link:'/inicioPaciente'});
     }) 
 })
 

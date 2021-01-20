@@ -26,8 +26,9 @@
 	<link rel="stylesheet" type="text/css" href="./vendor/daterangepicker/daterangepicker.css">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="./css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="./css/main.css">
 <!--===============================================================================================-->
+
 </head>
 <body>
     <%- include("template/navbar",{link:'/ingresar',texto:'Iniciar Sesión'})%>
@@ -36,11 +37,10 @@
                 <div class="login100-more" style="background-image: url('https://centrodeayudaesp.es/wp-content/uploads/2018/11/ansiedad9.jpg'); transform: scaleX(-1);" ></div>
     
                 <div class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
-                    <form class="login100-form validate-form mt-5" action="/registrar" method="post">
+                    <form class="login100-form validate-form mt-5" action="/registrar" method="post" name="form" onsubmit="return validarregistro(this)">
                         <span class="login100-form-title p-b-59">
                             Registrar
                         </span>
-    
                         <div class="wrap-input100 validate-input" data-validate="Nombre requerido">
                             <span class="label-input100">Nombre</span>
                             <input class="input100" type="text" name="nombre" placeholder="Nombre...">
@@ -61,14 +61,16 @@
                             <input class="input100" type="text" name="email" placeholder="Email...">
                             <span class="focus-input100"></span>
                         </div>
-                        <div class="wrap-input100 validate-input" data-validate = "">
-                            <span class="label-input100">Rol</span><br>
-                            <select name="rol">
+                        
+
+                            <span class="label-input100">Elige un rol</span><br>
+                            <select class='form-select mb-5' name="rol">
                                 <option value="1">Psicólogo</option>
                                 <option value="2">Paciente</option>
                             </select>
+                            
                             <span class="focus-input100"></span>
-                        </div>
+                        
                         <div class="wrap-input100 validate-input" data-validate = "Contraseña requerida">
                             <span class="label-input100">Contraseña</span>
                             <input class="input100" type="password" name="password" placeholder="*************">
@@ -158,6 +160,6 @@ Para evitar conflictos generales de uso inapropiado y en concordancia con el avi
         <script src="vendor/countdowntime/countdowntime.js"></script>
     <!--===============================================================================================-->
         <script src="js/main.js"></script>
-    
+        <script src="js/validacion.js"></script>
 
 <%- include("template/footer")%>

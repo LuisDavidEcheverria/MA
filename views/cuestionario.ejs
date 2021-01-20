@@ -4,11 +4,12 @@
 <div class="container mt-5 shadow text-justify bg-light">
   
 <form method="POST" action="/enviarCuestionario" >
-<%for(var i = 0;i<preguntas.length;i++){%>
+<%for(var i = 0;i<preguntas.length ;i++){%>
   <div class="container py-4 "></div>
+  <p>Recuerda que el cuestionario se responde en base a una escala donde 1 es casi nunca y 5 es casi siempre</p>
   <p class="mt-1"><strong><%=i+1%>-</strong><%=preguntas[i].pregunta%></p>
-  <div class="form-check form-check-inline">
-    <input class="form-check-input" type="radio" name="inlineRadioOptions<%=i%>" id= '<%=i%>'value="1">
+  <div class="form-check form-check-inline ">
+    <input class="form-check-input " type="radio" name="inlineRadioOptions<%=i%>" id= '<%=i%>'value="1" checked>
     <label class="form-check-label" for="<%=i%>">1</label>
   </div>
   <div class="form-check form-check-inline">

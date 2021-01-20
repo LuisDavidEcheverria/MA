@@ -4,7 +4,7 @@
                   <div class="row">
 
                       <div class="panel panel-default">
-                      <div class="panel-heading bg-info text-light"> <h4 >Mi Psicólogo</h4></div>
+                      <div class="panel-heading bg-info text-light"><h4 >Mi Psicólogo</h4></div>
                        <div class="panel-body">
                       <div class="col-md-4 col-xs-12 col-sm-6 col-lg-4">
                        <img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive shadow"> 
@@ -13,12 +13,12 @@
                       <div class="col-md-8 col-xs-12 col-sm-6 col-lg-8" >
                           <div class="container shadow" >
                             
-                            <h2>Psicologo</h2>
+                            <h2><%=psicologo%></h2>
                             <p><b>Psicologo</b></p>
                             <ul class="container details" >
                             
-                                <li><p><span class="glyphicon glyphicon-user one" style="width:50px;"></span>Info</p></li>
-                                <li><p><span class="glyphicon glyphicon-envelope one" style="width:50px;"></span>Email</p></li>
+                                <li><p><span class="glyphicon glyphicon-user one" style="width:50px;"></span><strong>Código:</strong><%=codigoPsicologo%></p></li>
+                                <li><p><span class="glyphicon glyphicon-envelope one" style="width:50px;"></span><%=correoPsicologo%></p></li>
                             </ul> 
                           </div>
                            <hr>
@@ -29,12 +29,14 @@
                             <div class="col"><input type="text" class="form-control" id="inputPassword2" placeholder="Código" name="codigo"></div>
                             
                             </div>
+                            
                             <div class="row mb-3">
                                 <div class="col">
                                     <button type="submit" class="btn btn-success mb-2">Registrar</button>
                                 </div>
-                                <div class="col"><button type="submit" class="btn btn-danger mb-2">Eliminar</button></div>
+                                <!--<div class="col"><button type="submit" class="btn btn-danger mb-2">Eliminar</button></div>-->
                             </div>  
+                            
                           </form>
                           <a href='/inicioPaciente'>Regresar</a>
                           <hr>
