@@ -302,15 +302,10 @@ router.post('/asignarPsicologo',autentificarPaciente,(req,res)=>
             connection.query('SELECT MD.nombre,MD.appat FROM MDatos AS MD INNER JOIN MPsicologo AS MP ON MD.Id_datos = MP.ID_datos WHERE Id_Psicologo = ?',[codigo],function(error,resultado){
                 connection.query('update MPaciente set Id_Psicologo = ? where Id_usuario = ?',[codigo,id],function(err,result)
                 {
-                    if(err)
-                    {
-                        res.render('error');
-                        throw err;
-                    }
-                    else
-                    {
+  
+                    
                         res.render('exito',{titulo:'Felicidades',mensaje:'Has sido asignado a un nuevo psicologo',link:'/inicioPaciente'});
-                    }
+                    
                     
                 })
             })
