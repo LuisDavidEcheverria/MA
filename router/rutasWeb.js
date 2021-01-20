@@ -264,7 +264,7 @@ router.get('/psicologo',autentificarPaciente,(req,res) =>
             {
                 console.log('Sirve');
             }
-            idDatos = result[0];
+            idDatos = result[0].Id_datos;
             connection.query('select correo,nombre,appat from MDatos where Id_datos =?',[idDatos],function(err,result)
             {
                 if(err){res.render('error');}
